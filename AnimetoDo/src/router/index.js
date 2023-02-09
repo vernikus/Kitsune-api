@@ -16,8 +16,13 @@ const router = createRouter({
     },
     {
       path: '/list',
-      name: 'about',
+      name: 'list',
       component: () => import('../views/ListAnime.vue')
+    },
+    {
+      path: '/list-edit',
+      name: 'list edit',
+      component: () => import('../views/EditListAnime.vue')
     }
   ]
 })
