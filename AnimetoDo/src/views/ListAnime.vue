@@ -47,7 +47,7 @@ const pagination = async (link) =>{
 </script>
 
 <template>
-    <main class="d-flex flex-column justify-content-center align-items-center ">
+    <section class="d-flex flex-column justify-content-center align-items-center ">
         <h1>Check List Anime</h1>
         <form action="">
             <input type="text" @keyup="getText" v-model="textToApi" class="form-control mb-5 mt-5">
@@ -74,5 +74,5 @@ const pagination = async (link) =>{
             <button class="btn btn-primary btn-lg" :disabled='linkFlagPrev'  @click="pagination(linkPrev)" >Previos</button>
             <button class="btn btn-primary btn-lg" :disabled='linkFlagNext' @click="pagination(linkNext)">Next</button>
         </div>
-    </main>
+    </section>
 </template>

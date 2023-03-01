@@ -1,8 +1,12 @@
 <script setup>
+import { useUser } from '../stores/user';
+const user = useUser()
+
+console.log(user.data?.email)
 </script>
 
 <template>
-    <main>
+    <section>
         <h1>Check listo to anime</h1>
-    </main>
+    </section>
 </template>
