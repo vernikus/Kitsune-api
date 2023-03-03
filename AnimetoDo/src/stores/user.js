@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth } from "../../fireBaseConfig";
+import { auth } from "../fireBaseConfig";
 import {ref} from 'vue'
 import { useRouter } from "vue-router";
+import { useListAnime } from "./listAnimeStore";
 
 export const useUser = defineStore('userStore', () =>{
     const data = ref(null)
@@ -37,13 +38,17 @@ export const useUser = defineStore('userStore', () =>{
         }
     }
     const logoutUser = async () =>{
+        const listAnime = useListAnime()
         try{
             await signOut(auth)
             data.value = null
             router.push('/login')
-
+            
         }catch(err){
             console.log(err)
+        }finally{
+            listAnime.$reset()
+            
         }
     }
     const currentUser = () =>{
@@ -53,6 +58,8 @@ export const useUser = defineStore('userStore', () =>{
                     data.value = {email : user.email, uid : user.uid}
                 }else{
                     data.value = null
+                    const listAnime = useListAnime()
+                    listAnime.$reset()
                 }
                 res(user)
             }, err => rej(err))

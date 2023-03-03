@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import  {getAuth} from 'firebase/auth'
-
+import {getFirestore} from 'firebase/firestore/lite'
 const firebaseConfig = {
   apiKey: "AIzaSyAnrLKuW5YvO5k85ajhCvvDIutLg1My730",
   authDomain: "api-anime-todo.firebaseapp.com",
@@ -13,5 +13,5 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth()
-
-export {auth}
+const db = getFirestore()
+export {auth,db}

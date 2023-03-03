@@ -1,5 +1,7 @@
 <script setup>
 import {ref} from 'vue'
+import { useListAnime } from '../stores/listAnimeStore';
+
 
 const textToApi = ref();
 const list = ref([]);
@@ -8,6 +10,7 @@ const linkNext = ref();
 const linkFlagPrev = ref(true);
 const linkFlagNext = ref(true);
 const spinnerFlag = ref()
+const listAnime = useListAnime()
 const getData = async (api) =>{
     try{
         spinnerFlag.value = true
@@ -43,7 +46,9 @@ const pagination = async (link) =>{
        await getData(link)
 }
 
-
+const hadelSubmit = () =>{
+    listAnime.addAnime()
+}
 </script>
 
 <template>
@@ -64,7 +69,7 @@ const pagination = async (link) =>{
             >
             <p>{{ anime.canonicalTitle }}</p>
             <div class="d-flex gap-2">
-                <button class="btn btn-primary">Add</button>
+                <button class="btn btn-primary" @click="listAnime.addAnime(anime.canonicalTitle)">Add</button>
                 <button class="btn btn-danger">Deleted</button>
             </div>
             </li>
