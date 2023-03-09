@@ -7,14 +7,17 @@ listAnime.getAnime()
 </script>
 
 <template>
-    <section>
+    <section class="d-flex flex-column justify-content-center align-items-center ">
         <h1>Edis list Anime</h1>
-        <ul v-if="!listAnime.loadinDoc" class="list-group">
-            <li v-for="anime of listAnime.documents" class="list-group-item"
+        <ul v-if="!listAnime.loadinDoc" class="list-group w-75">
+            <li v-for="anime of listAnime.documents" class="list-group-item d-flex justify-content-between" 
             :key="anime.id"           
             >
             {{ anime.name }}
-            <button class="btn btn-danger" @click="listAnime.deletedAnime(anime.id)">Deleted</button>
+            <div class="d-flex gap-2">
+                <button class="btn btn-danger" @click="listAnime.deletedAnime(anime.id)">Deleted</button>
+                <button class="btn btn-success ml-2">More</button>
+            </div>
             </li>
         </ul>
         <div class="d-flex mt-5 justify-content-center " v-else>

@@ -1,8 +1,11 @@
 <script setup>
 import {ref} from 'vue'
 import { useListAnime } from '../stores/listAnimeStore';
+import {useRouter} from 'vue-router'
+import { useGetAnime } from '../stores/getAnime';
 
 
+const getAnime = useGetAnime()
 const textToApi = ref();
 const list = ref([]);
 const linkPrev = ref();
@@ -11,13 +14,20 @@ const linkFlagPrev = ref(true);
 const linkFlagNext = ref(true);
 const spinnerFlag = ref()
 const listAnime = useListAnime()
+// const router = useRouter()
+// const animeMoreInfo = ref()
 const getData = async (api) =>{
     try{
         spinnerFlag.value = true
         const res = await fetch(api)
         const data = await res.json()        
         for(let anime in data.data){
-            list.value.push(data.data[anime].attributes)
+            // list.value.push(data.data[anime].attributes)
+            list.value.push({
+                title : data.data[anime].attributes.canonicalTitle,
+                link : data.data[anime].links.self,
+                id : data.data[anime].id
+            })
         }
         linkNext.value = data.links.next
         linkPrev.value = data.links.prev
@@ -34,21 +44,37 @@ const getText = async() =>{
     try{
         list.value = []
         if(textToApi.value.length > 0){
-        await getData(`https://kitsu.io/api/edge/anime?filter[text]=${textToApi.value}`)
+            await getData(`https://kitsu.io/api/edge/anime?filter[text]=${textToApi.value}`)
     }
-    }catch(err){
-        console.log(err)
-    }
+}catch(err){
+    console.log(err)
+}
 }
 
 const pagination = async (link) =>{
     list.value = []
-       await getData(link)
+    await getData(link)
 }
 
 const hadelSubmit = () =>{
     listAnime.addAnime()
 }
+
+// const moreInfo = async (animeData) =>{
+//     try{
+//         await router.push(`/more-info/${animeData.title}`)
+//         const res = await fetch(animeData.link)
+//         const anime = await res.json()
+//         animeMoreInfo.value = {...animeData}
+//         console.log(animeMoreInfo.value)
+//     }catch(err){
+//         console.log(err)
+//     }
+// }
+
+
+
+
 </script>
 
 <template>
@@ -67,10 +93,10 @@ const hadelSubmit = () =>{
             :key="anime"
             class="list-group-item d-flex justify-content-between"
             >
-            <p>{{ anime.canonicalTitle }}</p>
+            <p>{{ anime.title }}</p>
             <div class="d-flex gap-2">
-                <button class="btn btn-primary" @click="listAnime.addAnime(anime.canonicalTitle)">Add</button>
-                <button class="btn btn-danger">Deleted</button>
+                <button class="btn btn-primary" @click="listAnime.addAnime(anime.title)">Add</button>
+                <button class="btn btn-success ml-2" @click="getAnime.moreInfo(anime)">More</button>
             </div>
             </li>
         </ul>

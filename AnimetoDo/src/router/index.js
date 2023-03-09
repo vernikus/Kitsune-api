@@ -39,7 +39,7 @@ const router = createRouter({
     {
       path: '/list-edit',
       name: 'list edit',
-      component: () => import('../views/EditListAnime.vue'),
+      component: () => import('../views/MyListAnime.vue'),
       beforeEnter : requiereAuth
     },
     {
@@ -51,6 +51,12 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginUser.vue')
+    },
+    {
+      path: '/more-info/:id',
+      name: 'more-info',
+      component: () => import('../views/MoreInfoAnime.vue'),
+      beforeEnter : requiereAuth
     }
   ]
 })
